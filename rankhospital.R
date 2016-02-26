@@ -24,7 +24,6 @@ rankhospital <- function(state, outcome, num = "best") {
     ## Coerce data + convert to numeric
     data.state <- data[data$State == state, ]
     data.state[, my_ind] <- as.numeric(x = data.state[, my_ind])
-    data.state <- na.omit(data.state)
 
     ## Translate the value of num
     if (num == "best"){

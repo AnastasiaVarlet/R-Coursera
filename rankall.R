@@ -27,26 +27,31 @@ rankall <- function(outcome, num = "best") {
 
         
         ## Order the hospitals in that state for the given outcome my_ind
-        ranked.data.state <- data.state[order(data.state[, my_ind], data.state$Hospital.Name, na.last=NA), ]
+        if (num == "worst") {
+            ranked.data.state <- data.state[order(-data.state[, my_ind], data.state$Hospital.Name, na.last=NA), ]
+        } 
+        else {
+            ranked.data.state <- data.state[order(data.state[, my_ind], data.state$Hospital.Name, na.last=NA), ]
+        }
         
         ## Check & Translate the value of num into a number
         if (num == "best"){
-            num <- 1
+            my_num <- 1
         }
         else if (num == "worst"){
-            num <- nrow(ranked.data.state)
+            my_num <- 1
         }
         else if (is.numeric(num)){
             if (num<0 || num>nrow(ranked.data.state)){
                 result <- rbind(result, list("<NA>", my_state))
                 next
             }
-            else num <- num
+            else my_num <- num
         }
         else stop('invalid num')
         
         ## Return hospital name in that state with the given rank 30-day death rate
-        result.state <- ranked.data.state[num, ]$Hospital.Name
+        result.state <- ranked.data.state[my_num, ]$Hospital.Name
         result <- rbind(result, list(result.state,my_state))
     }
     
